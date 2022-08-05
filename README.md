@@ -145,13 +145,3 @@ APP_ENV=
   
   $ docker compose up -d
 ```
-
-
-
-
-  
-## Thanks
-
-- Thank you for this challenging opportunity
-
-  
