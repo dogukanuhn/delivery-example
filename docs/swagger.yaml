@@ -1,0 +1,88 @@
+basePath: /
+definitions:
+  domain.Delivery:
+    properties:
+      barcode:
+        type: string
+    type: object
+  domain.Route:
+    properties:
+      deliveries:
+        items:
+          $ref: '#/definitions/domain.Delivery'
+        type: array
+      deliveryPoint:
+        type: integer
+    type: object
+  dto.DeliverDTO:
+    properties:
+      route:
+        items:
+          $ref: '#/definitions/domain.Route'
+        type: array
+    type: object
+  response.ErrorResponse:
+    properties:
+      code:
+        type: integer
+      message:
+        type: string
+    type: object
+host: localhost:3000
+info:
+  contact:
+    email: b.dogukanurhan@gmail.com
+    name: Berkay Dogukan Urhan
+    url: https://www.linkedin.com/in/berkay-dogukan-urhan/
+  description: This project can handle delivery system for Branch, Distribution and
+    Transfer centers.
+  termsOfService: http://swagger.io/terms/
+  title: Delivery System Fleet Management Case Project
+  version: "1.0"
+paths:
+  /:
+    get:
+      consumes:
+      - '*/*'
+      description: get the status of server.
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            additionalProperties: true
+            type: object
+      summary: Show the status of server.
+      tags:
+      - root
+    post:
+      consumes:
+      - '*/*'
+      description: |-
+        If package or sacks in correct delivery point, change status to unloaded. If not, set status to loaded.
+        Branch Point can only receive packages, Distribution Point can receive everything, Transfer Point can receive only sacks and packages in sacks
+      parameters:
+      - description: Request struct
+        in: body
+        name: Routes
+        required: true
+        schema:
+          $ref: '#/definitions/dto.DeliverDTO'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/dto.DeliverDTO'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/response.ErrorResponse'
+      summary: Post request for handle delivery status
+      tags:
+      - root
+schemes:
+- http
+swagger: "2.0"
